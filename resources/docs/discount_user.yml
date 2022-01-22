@@ -1,0 +1,37 @@
+Endpoint for fetching discount code
+---
+parameters:
+  - name: body
+    in: body
+    description: user should be authenticated
+    required: true
+    schema:
+      $ref: "#/definitions/Fetch Discount Code" 
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '#/definitions/User Discount Code Response'
+  required: true
+definitions:
+  Fetch Discount Code:
+    type: object
+    properties:
+      brand_id:
+        type: integer 
+  User Discount Code Response:
+    type: object
+    properties:
+      brand_id:
+        type: integer 
+      id:
+        type: integer 
+      code:
+        type: string 
+      usable:
+        type: boolean 
+responses:
+  200:
+    description: Return discount code details
+    schema:
+      $ref: '#/definitions/User Discount Code Response'

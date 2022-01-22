@@ -1,0 +1,61 @@
+version: "2"
+
+services:
+  web:
+    links:
+      - "db"
+    build: .
+    ports:
+      - "8080:5000"
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+    networks:
+      default:
+        aliases:
+          - discount
+
+  db:
+    image: postgres:10
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=app
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - discount-db
+
+  rabbit:
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    networks:
+      default:
+        aliases:
+          - rabbitmq
+    ports:
+      - "5673:5672"
+      - "15672:15672"
+
+  worker:
+    build: './worker'
+    user: nobody
+    volumes:
+    - ./:/app/:ro
+    depends_on:
+      - rabbit
+      - web
+      - db
+
+volumes:
+  db_data: {}
