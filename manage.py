@@ -12,14 +12,21 @@ from app.models.brand import Brand
 from app.models.discount_code import DiscountCode
 from app.models.user import User, Role
 
-from app.resources.discount_codes import DiscountCodeUserViewSet, DiscountCodeGenerateViewSet
+from app.resources.discount_codes import (
+    DiscountCodeUserViewSet,
+    DiscountCodeGenerateViewSet,
+)
 
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", 'pf9Wkove4IKEAXvy-cQkeDPhv9Cb3Ag-wyJILbq_dFw')
-app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT", '146585145368132386173505678016728509634')
-app.config['WTF_CSRF_ENABLED'] = False
+app.config["SECRET_KEY"] = os.environ.get(
+    "SECRET_KEY", "pf9Wkove4IKEAXvy-cQkeDPhv9Cb3Ag-wyJILbq_dFw"
+)
+app.config["SECURITY_PASSWORD_SALT"] = os.environ.get(
+    "SECURITY_PASSWORD_SALT", "146585145368132386173505678016728509634"
+)
+app.config["WTF_CSRF_ENABLED"] = False
 api = Api(app)
 db.init_app(app)
 security = Security(app, user_datastore)
@@ -34,7 +41,8 @@ def create_user():
             email="test@me.com",
             name="test",
             surname="test",
-            password=hash_password("password"))
+            password=hash_password("password"),
+        )
     db.session.commit()
 
 

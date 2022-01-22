@@ -19,7 +19,6 @@ def seed():
     code.save()
 
 
-
 def truncate_all():
     models = [DiscountCode, Brand, User]
     for model in models:

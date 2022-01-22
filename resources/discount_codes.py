@@ -25,10 +25,10 @@ class DiscountCodeUserViewSet(Resource):
             validated_data = self.schema.load(item_json)
         except ValidationError as err:
             return err.messages, 400
-        
+
         code = DiscountCode.query.filter(
             DiscountCode.user == None,
-            DiscountCode.brand_id == validated_data.get('brand_id')
+            DiscountCode.brand_id == validated_data.get("brand_id"),
         ).first()
 
         if not code:
@@ -52,14 +52,13 @@ class DiscountCodeGenerateViewSet(Resource):
             return err.messages, 400
 
         brand = Brand.query.filter(
-            Brand.id == validated_data['brand_id'],
+            Brand.id == validated_data["brand_id"],
         ).first()
         if not brand:
             return {"error": "Brand not found"}, 400
-        
+
         promise = celery.send_task(
-            "tasks.generate_discount_codes",
-            kwargs={"data": validated_data}
+            "tasks.generate_discount_codes", kwargs={"data": validated_data}
         )
         validated_data["promise"] = promise.id
         return validated_data, 200

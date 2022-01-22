@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields
 
+
 class DiscountCodeSchema(Schema):
     id = fields.Integer()
     brand_id = fields.Integer()
@@ -11,4 +12,3 @@ class DiscountCodeUserSchema(Schema):
     brand_id = fields.Integer()
     code = fields.String(dump_only=True)
     usable = fields.Boolean(dump_only=True)
-

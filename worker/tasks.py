@@ -1,5 +1,6 @@
 import sys
-sys.path.append('/')
+
+sys.path.append("/")
 
 import time
 import os
@@ -19,8 +20,8 @@ app = Celery("tasks", broker=os.environ["CELERY_BROKER_URL"], backend="rpc://")
 @app.task()
 def generate_discount_codes(data):
     logger.info("Generating codes - Starting work ", data)
-    count = data.get('count', 0)
-    brand_id = data['brand_id']
+    count = data.get("count", 0)
+    brand_id = data["brand_id"]
     with web_app.app_context():
         for i in range(count):
             code = DiscountCode(code=generate_code(6), brand_id=brand_id)

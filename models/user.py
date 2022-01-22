@@ -8,10 +8,11 @@ class User(ModelMixin, db.Model, fsqla.FsUserMixin):
     name = db.Column(db.String(255), nullable=False)
     surname = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False)
-    discount_codes = db.relationship("DiscountCode", backref="user",lazy=True)
+    discount_codes = db.relationship("DiscountCode", backref="user", lazy=True)
 
     def __repr__(self):
         return "<User %r>" % self.name
+
 
 class Role(db.Model, fsqla.FsRoleMixin):
     pass
